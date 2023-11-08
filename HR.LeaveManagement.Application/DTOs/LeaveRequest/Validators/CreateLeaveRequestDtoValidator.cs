@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HR.LeaveManagement.Application.Persistence.Contracts;
+using HR.LeaveManagement.Application.Contracts.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +10,12 @@ namespace HR.LeaveManagement.Application.DTOs.LeaveRequest.Validators
 {
     public class CreateLeaveRequestDtoValidator : AbstractValidator<CreateLeaveRequestDto>
     {
-
-        public CreateLeaveRequestDtoValidator() 
+        private readonly ILeaveRequestRepository _leaveRequestRepository;
+        public CreateLeaveRequestDtoValidator(ILeaveRequestRepository leaveRequestRepository) 
         {
-            Include(new ILeaveRequestDtoValidator());
+            _leaveRequestRepository = leaveRequestRepository;
+
+            Include(new ILeaveRequestDtoValidator(_leaveRequestRepository));
         }
     }
 }
